@@ -1,1 +1,7 @@
-# Ignora el appsettings.json que contiene configuraciones sensibles
+appsettings.json
+# Ignora archivos de configuración sensibles
+appsettings.Development.json
+
+# Ignora archivos y carpetas generados por la compilación
+bin/
+obj/
