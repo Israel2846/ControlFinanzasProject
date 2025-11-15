@@ -10,19 +10,26 @@ namespace ControlFinanzasProject.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El nombre de la tarjeta es obligatorio.")]
         [MaxLength(100)]
+        [Display(Name = "Nombre de la Tarjeta")]
         public string Nombre { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "El límite de crédito es obligatorio.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El límite de crédito debe ser mayor que cero.")]
-        public decimal LimiteCredito { get; set; }
-        [Required]
+        [Display(Name = "Límite de Crédito")]
+        public decimal? LimiteCredito { get; set; }
+        [Required(ErrorMessage = "La deuda actual es obligatoria.")]
         [Range(0.0, double.MaxValue, ErrorMessage = "La deuda actual no puede ser negativa.")]
-        public decimal DeudaActual { get; set; }
-        [Required]
-        public DateTime FechaCorte { get; set; }
-        [Required]
-        public DateTime FechaPago { get; set; }
+        [Display(Name = "Deuda Actual")]
+        public decimal? DeudaActual { get; set; }
+        [Required(ErrorMessage = "El día de corte es obligatorio.")]
+        [Range(1, 31, ErrorMessage = "El día de corte debe estar entre 1 y 31.")]
+        [Display(Name = "Día de Corte")]
+        public int? DiaCorte { get; set; }
+        [Required(ErrorMessage = "El día de pago es obligatorio.")]
+        [Range(1, 31, ErrorMessage = "El día de pago debe estar entre 1 y 31.")]
+        [Display(Name = "Día de Pago")]
+        public int? DiaPago { get; set; }
         [Required]
         public bool EsActivo { get; set; } = true;
         // Navigation property

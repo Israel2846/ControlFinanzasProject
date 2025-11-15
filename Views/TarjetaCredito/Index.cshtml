@@ -1,0 +1,95 @@
+@model IEnumerable<TarjetaCredito>
+
+@{
+    ViewData["Title"] = "Tarjetas de Crédito";
+}
+
+<h1>Tarjetas de Crédito</h1>
+
+
+<button type="button" class="btn btn-primary" id="btnNuevaTarjeta">
+    Nueva Tarjeta
+</button>
+</tbody>
+</table>
+
+<!-- Modal para Crear/Editar Tarjeta -->
+<div class="modal fade" id="modalTarjetaCredito" tabindex="-1" aria-labelledby="modalTarjetaCreditoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTarjetaCreditoLabel">Tarjeta de Crédito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="modalTarjetaCreditoBody">
+                <!-- Aquí se cargará el formulario por AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .btn-disabled-custom {
+        pointer-events: none;
+        opacity: 0.65;
+        background-color: #adb5bd !important;
+        border-color: #adb5bd !important;
+        color: #fff !important;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Límite</th>
+            <th>Deuda Actual</th>
+            <th>Día Corte</th>
+            <th>Día Pago</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (TarjetaCredito item in Model)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.LimiteCredito</td>
+                <td>@item.DeudaActual</td>
+                <td>@item.DiaCorte</td>
+                <td>@item.DiaPago</td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-sm btnEditar" data-id="@item.Id">
+                        <span class="textoEditar">Editar</span>
+                        <span id="spinnerEditar_@item.Id" class="spinner-border spinner-border-sm text-light" style="display:none;" role="status" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm btnEliminar" data-id="@item.Id" data-nombre="@item.Nombre">Eliminar</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-labelledby="modalConfirmarEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmarEliminarLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro que deseas eliminar la tarjeta <span id="nombreTarjetaEliminar" class="fw-bold"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCancelarEliminar" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/tarjetaCreditoIndex.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+}

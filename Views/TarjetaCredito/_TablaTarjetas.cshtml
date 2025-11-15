@@ -1,0 +1,18 @@
+@model IEnumerable<TarjetaCredito>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Nombre</td>
+        <td>@item.LimiteCredito</td>
+        <td>@item.DeudaActual</td>
+        <td>@item.DiaCorte</td>
+        <td>@item.DiaPago</td>
+        <td>
+            <button type="button" class="btn btn-warning btn-sm btnEditar" data-id="@item.Id">
+                <span class="textoEditar">Editar</span>
+                <span id="spinnerEditar_@item.Id" class="spinner-border spinner-border-sm text-light" style="display:none;" role="status" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm btnEliminar" data-id="@item.Id" data-nombre="@item.Nombre">Eliminar</button>
+        </td>
+    </tr>
+}
