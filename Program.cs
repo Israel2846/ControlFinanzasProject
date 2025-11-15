@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor(
+        (value, field) => $"El valor '{value}' no es válido para {field}.");
+});
 
 // Configurar Entity Framework Core con SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -28,7 +32,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=TarjetaCredito}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

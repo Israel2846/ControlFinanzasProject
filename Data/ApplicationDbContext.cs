@@ -98,8 +98,9 @@ namespace ControlFinanzasProject.Data
                 .HasIndex(tc => tc.EsActivo);
 
             modelBuilder.Entity<TarjetaCredito>()
-                .HasIndex(tc => tc.Nombre)
-                .IsUnique();
+                .HasIndex(tc => new { tc.Nombre, tc.EsActivo })
+                .IsUnique()
+                .HasFilter("[EsActivo] = 1");
 
             // Índices para PagoTarjeta
             modelBuilder.Entity<PagoTarjeta>()

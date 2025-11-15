@@ -4,6 +4,7 @@ using ControlFinanzasProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlFinanzasProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251115064538_UniqueNombreEsActivoEnTarjetaCredito")]
+    partial class UniqueNombreEsActivoEnTarjetaCredito
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,8 +201,7 @@ namespace ControlFinanzasProject.Migrations
                     b.HasIndex("EsActivo");
 
                     b.HasIndex("Nombre", "EsActivo")
-                        .IsUnique()
-                        .HasFilter("[EsActivo] = 1");
+                        .IsUnique();
 
                     b.ToTable("TarjetaCredito", t =>
                         {

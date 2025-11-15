@@ -1,0 +1,33 @@
+@model TarjetaCredito
+<form id="formEditarTarjeta" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LimiteCredito" class="control-label"></label>
+        <input asp-for="LimiteCredito" class="form-control" />
+        <span asp-validation-for="LimiteCredito" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DeudaActual" class="control-label"></label>
+        <input asp-for="DeudaActual" class="form-control" />
+        <span asp-validation-for="DeudaActual" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DiaCorte" class="control-label"></label>
+        <input asp-for="DiaCorte" class="form-control" type="number" min="1" max="31" />
+        <span asp-validation-for="DiaCorte" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DiaPago" class="control-label"></label>
+        <input asp-for="DiaPago" class="form-control" type="number" min="1" max="31" />
+        <span asp-validation-for="DiaPago" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary" id="btnGuardarModal">Guardar</button>
+        <span id="spinnerGuardarModal" class="spinner-border spinner-border-sm text-primary" style="display:none;" role="status" aria-hidden="true"></span>
+    </div>
+</form>
