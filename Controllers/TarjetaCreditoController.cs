@@ -6,16 +6,55 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControlFinanzasProject.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de tarjetas de crédito (CRUD y vistas parciales/modal).
+    /// </summary>
     [Controller]
     public class TarjetaCreditoController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Inyección de dependencias del contexto de base de datos.
+        /// </summary>
         public TarjetaCreditoController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Devuelve la vista principal con la lista de tarjetas activas.
+        /// </summary>
+        public IActionResult Index()
+        {
+            var tarjetas = _context.TarjetaCredito.Where(t => t.EsActivo).ToList();
+            return View(tarjetas);
+        }
+
+        /// <summary>
+        /// Devuelve el formulario parcial para crear una tarjeta (modal).
+        /// </summary>
+        [HttpGet]
+        public IActionResult FormCrear()
+        {
+            return PartialView("_FormCrearTarjeta", new TarjetaCredito());
+        }
+
+        /// <summary>
+        /// Devuelve el formulario parcial para editar una tarjeta (modal).
+        /// </summary>
+        [HttpGet]
+        public IActionResult FormEditar(int id)
+        {
+            var tarjeta = _context.TarjetaCredito.Find(id);
+            if (tarjeta == null)
+                return NotFound();
+            return PartialView("_FormEditarTarjeta", tarjeta);
+        }
+
+        /// <summary>
+        /// Crea una tarjeta de crédito desde el modal (AJAX).
+        /// </summary>
         [HttpPost]
         public IActionResult CreateModal(TarjetaCredito model)
         {
@@ -44,6 +83,9 @@ namespace ControlFinanzasProject.Controllers
             return PartialView("_FormCrearTarjeta", model);
         }
 
+        /// <summary>
+        /// Edita una tarjeta de crédito desde el modal (AJAX).
+        /// </summary>
         [HttpPost]
         public IActionResult EditModal(TarjetaCredito model)
         {
@@ -72,60 +114,9 @@ namespace ControlFinanzasProject.Controllers
             return PartialView("_FormEditarTarjeta", model);
         }
 
-        [HttpGet]
-        public IActionResult FormCrear()
-        {
-            return PartialView("_FormCrearTarjeta", new TarjetaCredito());
-        }
-
-        [HttpGet]
-        public IActionResult FormEditar(int id)
-        {
-            var tarjeta = _context.TarjetaCredito.Find(id);
-            if (tarjeta == null)
-                return NotFound();
-            return PartialView("_FormEditarTarjeta", tarjeta);
-        }
-
-        public IActionResult Index()
-        {
-            var tarjetas = _context.TarjetaCredito.Where(t => t.EsActivo).ToList();
-            return View(tarjetas);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(TarjetaCredito model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.TarjetaCredito.Add(model);
-                    _context.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (DbUpdateException ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.Message.Contains("IX_TarjetaCredito_Nombre"))
-                    {
-                        ModelState.AddModelError("Nombre", "Ya existe una tarjeta con ese nombre.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Ocurrió un error al guardar la tarjeta. Intenta nuevamente.");
-                    }
-                }
-            }
-            return View(model);
-        }
-
-
+        /// <summary>
+        /// Elimina lógicamente una tarjeta de crédito (AJAX, soft delete).
+        /// </summary>
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -140,6 +131,9 @@ namespace ControlFinanzasProject.Controllers
             return Json(new { success = false, error = "No se encontró la tarjeta." });
         }
 
+        /// <summary>
+        /// Devuelve la tabla parcial de tarjetas activas (para recarga AJAX).
+        /// </summary>
         [HttpGet]
         public IActionResult TablaParcial()
         {
