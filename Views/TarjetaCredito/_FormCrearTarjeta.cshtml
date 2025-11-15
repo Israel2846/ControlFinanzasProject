@@ -1,30 +1,38 @@
 @model TarjetaCredito
+
+@* Formulario parcial para crear una nueva tarjeta de crédito (usado en modal SPA) *@
 <form id="formCrearTarjeta" method="post">
+    <!-- Campo: Nombre de la tarjeta -->
     <div class="form-group">
         <label asp-for="Nombre" class="control-label"></label>
         <input asp-for="Nombre" class="form-control" />
         <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
+    <!-- Campo: Límite de crédito -->
     <div class="form-group">
         <label asp-for="LimiteCredito" class="control-label"></label>
         <input asp-for="LimiteCredito" class="form-control" />
         <span asp-validation-for="LimiteCredito" class="text-danger"></span>
     </div>
+    <!-- Campo: Deuda actual -->
     <div class="form-group">
         <label asp-for="DeudaActual" class="control-label"></label>
         <input asp-for="DeudaActual" class="form-control" />
         <span asp-validation-for="DeudaActual" class="text-danger"></span>
     </div>
+    <!-- Campo: Día de corte -->
     <div class="form-group">
         <label asp-for="DiaCorte" class="control-label"></label>
         <input asp-for="DiaCorte" class="form-control" type="number" min="1" max="31" />
         <span asp-validation-for="DiaCorte" class="text-danger"></span>
     </div>
+    <!-- Campo: Día de pago -->
     <div class="form-group">
         <label asp-for="DiaPago" class="control-label"></label>
         <input asp-for="DiaPago" class="form-control" type="number" min="1" max="31" />
         <span asp-validation-for="DiaPago" class="text-danger"></span>
     </div>
+    <!-- Botón Crear y spinner visual -->
     <div class="form-group mt-3">
         <button type="submit" class="btn btn-primary" id="btnCrearModal">Crear</button>
         <span id="spinnerCrearModal" class="spinner-border spinner-border-sm text-primary" style="display:none;" role="status" aria-hidden="true"></span>

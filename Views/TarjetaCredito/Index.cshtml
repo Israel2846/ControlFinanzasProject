@@ -1,5 +1,7 @@
 @model IEnumerable<TarjetaCredito>
 
+@* Vista principal de Tarjetas de Crédito. Muestra la tabla, el botón para crear, y los modales para crear/editar y eliminar. *@
+
 @{
     ViewData["Title"] = "Tarjetas de Crédito";
 }
@@ -7,13 +9,14 @@
 <h1>Tarjetas de Crédito</h1>
 
 
+<!-- Botón principal para abrir el modal de creación de tarjeta -->
 <button type="button" class="btn btn-primary" id="btnNuevaTarjeta">
     Nueva Tarjeta
 </button>
 </tbody>
 </table>
 
-<!-- Modal para Crear/Editar Tarjeta -->
+<!-- Modal reutilizable para Crear/Editar Tarjeta de Crédito -->
 <div class="modal fade" id="modalTarjetaCredito" tabindex="-1" aria-labelledby="modalTarjetaCreditoLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -37,8 +40,10 @@
     }
 </style>
 
+<!-- Tabla principal de tarjetas de crédito -->
 <table class="table">
     <thead>
+        <!-- Encabezados de la tabla -->
         <tr>
             <th>Nombre</th>
             <th>Límite</th>
@@ -49,6 +54,7 @@
         </tr>
     </thead>
     <tbody>
+        @* Renderiza cada tarjeta de crédito en una fila de la tabla *@
         @foreach (TarjetaCredito item in Model)
         {
             <tr>
@@ -58,10 +64,12 @@
                 <td>@item.DiaCorte</td>
                 <td>@item.DiaPago</td>
                 <td>
+                    <!-- Botón Editar (abre modal) -->
                     <button type="button" class="btn btn-warning btn-sm btnEditar" data-id="@item.Id">
                         <span class="textoEditar">Editar</span>
                         <span id="spinnerEditar_@item.Id" class="spinner-border spinner-border-sm text-light" style="display:none;" role="status" aria-hidden="true"></span>
                     </button>
+                    <!-- Botón Eliminar (abre modal de confirmación) -->
                     <button type="button" class="btn btn-danger btn-sm btnEliminar" data-id="@item.Id" data-nombre="@item.Nombre">Eliminar</button>
                 </td>
             </tr>
@@ -69,7 +77,7 @@
         </tbody>
 </table>
 
-<!-- Modal de confirmación de eliminación -->
+<!-- Modal de confirmación de eliminación de tarjeta de crédito -->
 <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-labelledby="modalConfirmarEliminarLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -88,6 +96,7 @@
     </div>
 </div>
 
+@* Sección de scripts necesarios para la funcionalidad SPA y feedback visual *@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/tarjetaCreditoIndex.js"></script>

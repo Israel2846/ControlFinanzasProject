@@ -1,4 +1,8 @@
-    // Envío AJAX del formulario de creación de tarjeta
+    /**
+     * Asigna el evento submit al formulario de creación de tarjeta de crédito.
+     * Envía el formulario por AJAX, muestra spinner y feedback visual en el botón "Crear".
+     * Al finalizar, recarga la tabla y muestra notificación.
+     */
     function asignarSubmitCrear() {
         var formCrear = document.getElementById('formCrearTarjeta');
         if (formCrear) {
@@ -72,8 +76,12 @@
         }
     }
 
+/**
+ * Inicialización principal al cargar el DOM.
+ * Asigna eventos a los botones principales y delega eventos para editar/eliminar.
+ */
 document.addEventListener('DOMContentLoaded', function () {
-    // Botón Nueva Tarjeta: deshabilitar mientras el modal esté abierto, sin spinner
+    // --- Botón Nueva Tarjeta ---
     var btn = document.getElementById('btnNuevaTarjeta');
     var modalTarjeta = document.getElementById('modalTarjetaCredito');
     var modalTarjetaBody = document.getElementById('modalTarjetaCreditoBody');
@@ -99,7 +107,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Delegación de eventos para Editar y Eliminar en el tbody
+    /**
+     * Asigna la delegación de eventos sobre la tabla para los botones Editar y Eliminar.
+     * Permite que los botones funcionen aunque la tabla se recargue dinámicamente.
+     */
     function asignarDelegacionTbody() {
         var tabla = document.querySelector('table.table');
         if (!tabla) return;
@@ -159,6 +170,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         tabla._delegacionAsignada = true;
     }
+    /**
+     * Asigna el evento submit al formulario de edición de tarjeta de crédito.
+     * Envía el formulario por AJAX, muestra spinner y feedback visual en el botón "Guardar".
+     * Al finalizar, recarga la tabla y muestra notificación.
+     */
     function asignarSubmitEditar() {
         var formEditar = document.getElementById('formEditarTarjeta');
         if (formEditar) {
@@ -231,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-    // Modal de confirmación para eliminar con AJAX y SweetAlert
+    // --- Variables globales y lógica para eliminar tarjetas ---
     var idEliminar = null;
     var nombreEliminar = '';
     var modalEliminar = document.getElementById('modalConfirmarEliminar');
@@ -245,6 +261,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+    /**
+     * Asigna el evento click al botón de confirmación de eliminar.
+     * Realiza la petición AJAX para eliminar la tarjeta y muestra feedback visual.
+     */
     if (btnConfirmarEliminar) {
         btnConfirmarEliminar.addEventListener('click', function () {
             if (idEliminar) {
@@ -325,6 +345,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    /**
+     * Restaura el estado visual del botón Eliminar de la tabla al cerrar el modal de confirmación.
+     */
     if (btnCancelarEliminar && modalEliminar) {
         modalEliminar.addEventListener('hidden.bs.modal', function () {
             if (eliminarBtnOriginal) {
@@ -338,11 +361,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Inicializar delegación al cargar
+    // Inicializar delegación de eventos sobre la tabla al cargar
     asignarDelegacionTbody();
 });
 
-// Refresca la tabla de tarjetas de crédito (scope global)
+/**
+ * Refresca la tabla de tarjetas de crédito mediante AJAX.
+ * Reemplaza el tbody de la tabla por el HTML recibido del servidor.
+ * No es necesario reasignar eventos, la delegación sobre <table> los cubre.
+ */
 function recargarTabla() {
     fetch('/TarjetaCredito/TablaParcial')
         .then(response => response.text())
